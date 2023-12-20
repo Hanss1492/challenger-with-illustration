@@ -2,7 +2,7 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ToolbarDefault from "../components/toolbar/ToolbarDefault";
-import HomePage from "../views/pages/home/Home";
+
 import FooterDefault from "../components/copyright/FooterDefault";
 
 //Define el nuevo color en formato de Material-UI
@@ -19,10 +19,9 @@ const theme = createTheme({
 const Layout = () => {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      {/* <CssBaseline />
       <ToolbarDefault />
-      <HomePage />
-      <FooterDefault />
+      <FooterDefault /> */}
     </ThemeProvider>
   );
 };

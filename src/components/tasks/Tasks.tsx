@@ -12,19 +12,35 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const Tasks = () => {
   const [newDescription, setNewDescription] = useState("");
+  const [open, setOpen] = useState(false); // Estado del modal
   const tasks = useSelector((state: RootState) => state.tasks);
   const taskCount = tasks.length; // Contador de tareas
   const { addTask, deleteTask } = useTaskController();
 
   const handleAddTask = () => {
-    addTask(newDescription);
-    setNewDescription("");
+    setOpen(true); // Abrir el modal al hacer clic en Agregar
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Cerrar el modal
+  };
+
+  const handleCreateTask = () => {
+    if (newDescription.trim() !== "") {
+      addTask(newDescription);
+      setNewDescription("");
+      setOpen(false); // Cerrar el modal después de crear la tarea
+    }
   };
 
   return (
@@ -57,13 +73,6 @@ const Tasks = () => {
         ))}
       </List>
       <div style={{ display: "flex", marginBottom: 10 }}>
-        <TextField
-          label="Descripción de la tarea"
-          variant="outlined"
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
-          style={{ flex: 1, marginRight: 10 }}
-        />
         <Button
           variant="contained"
           onClick={handleAddTask}
@@ -73,6 +82,30 @@ const Tasks = () => {
           Agregar
         </Button>
       </div>
+
+      {/* Modal para crear una nueva tarea */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Nueva Tarea</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Descripción de la tarea"
+            type="text"
+            fullWidth
+            value={newDescription}
+            onChange={(e) => setNewDescription(e.target.value)}
+            error={newDescription.trim() === ""}
+            helperText={
+              newDescription.trim() === "" ? "*El campo es obligatorio" : ""
+            }
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleCreateTask}>Crear</Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };

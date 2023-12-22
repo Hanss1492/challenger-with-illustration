@@ -4,6 +4,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ToolbarDefault from "./components/toolbar/ToolbarDefault";
 import FooterDefault from "./components/copyright/FooterDefault";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const loading = (
   <div className="pt-3 text-center">
@@ -21,7 +23,7 @@ const theme = createTheme({
 });
 
 // Containers
-const DefaultLayout = React.lazy(() => import("./layout/Layout"));
+//const DefaultLayout = React.lazy(() => import("./layout/Layout"));
 
 // Pages
 const HomePage = React.lazy(() => import("./views/pages/home/Home"));
@@ -30,6 +32,7 @@ const Listado = React.lazy(() => import("./views/pages/listado/ListadoPage"));
 
 function App() {
   return (
+    <Provider store={store}>  
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
@@ -44,6 +47,7 @@ function App() {
         <FooterDefault />
       </Router>
     </ThemeProvider>
+    </Provider>
   );
 }
 

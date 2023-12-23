@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { addTask as addTaskAction, deleteTask as deleteTaskAction } from '../../redux/actions';
 
-export const useTaskController = () => {
+export const TasksController = () => {
   const dispatch = useDispatch();
 
   const addTask = (description: string) => {

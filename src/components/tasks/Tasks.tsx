@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useTaskController } from "./TaskController";
+import { TasksController } from "./TasksController";
 import {
   TextField,
   Button,
@@ -20,39 +20,34 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+// Importa los estilos desde tasksStles
+import { paperStyle, addButtonStyle, dialogStyle } from "./TasksStyles"; 
+
 const Tasks = () => {
   const [newDescription, setNewDescription] = useState("");
-  const [open, setOpen] = useState(false); // Estado del modal
+  const [open, setOpen] = useState(false);
   const tasks = useSelector((state: RootState) => state.tasks);
-  const taskCount = tasks.length; // Contador de tareas
-  const { addTask, deleteTask } = useTaskController();
+  const taskCount = tasks.length;
+  const { addTask, deleteTask } = TasksController();
 
   const handleAddTask = () => {
-    setOpen(true); // Abrir el modal al hacer clic en Agregar
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false); // Cerrar el modal
+    setOpen(false);
   };
 
   const handleCreateTask = () => {
     if (newDescription.trim() !== "") {
       addTask(newDescription);
       setNewDescription("");
-      setOpen(false); // Cerrar el modal después de crear la tarea
+      setOpen(false);
     }
   };
 
   return (
-    <Paper
-      style={{
-        maxWidth: 500,
-        margin: "auto",
-        padding: 20,
-        border: "1px solid #ccc",
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      }}
-    >
+    <Paper style={paperStyle}>
       <Typography variant="h6" gutterBottom>
         Tareas ({taskCount})
       </Typography>
@@ -72,18 +67,17 @@ const Tasks = () => {
           </ListItem>
         ))}
       </List>
-      <div style={{ display: "flex", marginBottom: 10 }}>
+      <div style={dialogStyle}>
         <Button
           variant="contained"
           onClick={handleAddTask}
           endIcon={<AddIcon />}
-          style={{ width: 120 }}
+          style={addButtonStyle}
         >
           Agregar
         </Button>
       </div>
 
-      {/* Modal para crear una nueva tarea */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Nueva Tarea</DialogTitle>
         <DialogContent>
